@@ -9,7 +9,8 @@
 	<script src="https://cdn.bootcss.com/vue/2.0.5/vue.js"></script>
 	<script src="https://cdn.bootcss.com/vue-router/2.1.3/vue-router.js"></script>
 	<script src="https://cdn.bootcss.com/vue-resource/1.1.0/vue-resource.js"></script>
-	<script type="text/javascript" src="js/libs/jquery.min.js"></script>
+	<!-- 引入jquery -->
+	<script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
 	<script src="https://cdn.bootcss.com/prototype/1.7.3/prototype.min.js"></script>
 </head>
 <body>
@@ -30,7 +31,7 @@
 							<div class="clear"></div>
 						</div>
 						<div class="article">
-							<article class="article-main">{{articleItem.description}}</article><img src="https://pic.36krcnd.com/avatar/201702/13031924/0cqloqnyvfgdiiog.png!heading" class="article-contain-img" alt="contain-image" tite=""/>
+							<div class="article-wrapper"><article class="article-main">{{articleItem.description}}</article></div><div class="img-wrapper"><img :src="articleItem.imgUrl[0]" class="article-contain-img" alt="contain-image" tite="" v-if="articleItem.imgUrl"/></div>
 						</div>
 					</a>
 				</section>
@@ -47,7 +48,6 @@
 	Vue.directive('art-info',{
 		bind:function(){
 			console.log("获取一次数据")
-
 		},
 		update:function(){
 			console.log("更新视图")
@@ -71,12 +71,13 @@
 					nowPage = this.nowPage;
 					reqCount = this.reqCount
 					articleData = this.articleData
-					console.log(nowPage)
+					// console.log(nowPage)
 					apiUrl = this.apiUrl;
 					switchShow=this.switchShow;
-					console.log(switchShow)
+					// console.log(switchShow)
 					// articleData = [];
-					console.log(apiUrl)
+					// console.log(apiUrl)
+					// Ajax请求
 					SendRequestAjax.prototype ={   
 					   	initialize: function(servername) {   
 					           this.servername = servername;  
@@ -99,48 +100,53 @@
 						    var pubTime = null; 
 						    var artDate = null;
 						    var artTime = null;
+						    var imgUrl = null;
 						    var items = results.getElementsByTagName("item"); 
 						    i = nowPage * 10;
 						    reqCount = i +reqCount;
 						    articleData.splice(0,i)
 						    for(var i = 0; i <  reqCount; i++) {   
-						        // item = items[i];   
+						    	// 获取所需数据项
 						        author=items[i].getElementsByTagName("author")[0].firstChild.nodeValue;   
 						        title = items[i].getElementsByTagName("title")[0].firstChild.nodeValue; 
 						        category = items[i].getElementsByTagName("category")[0].firstChild.nodeValue; 
 						        pubDate = items[i].getElementsByTagName("pubDate")[0].firstChild.nodeValue; 
 						        description = items[i].getElementsByTagName("description")[0].firstChild.nodeValue; 
-						        link = items[i].getElementsByTagName("link")[0].firstChild.nodeValue; 
+						        link = items[i].getElementsByTagName("link")[0].firstChild.nodeValue;
+						        console.log(link)
+						        imgUrl = description.match(/https:[^<]+?!heading/g);
+						        console.log(imgUrl)
 						        description = description.replace(/<[^>]+?>/g,'').replace(/\s+/g,' ').replace(/ /g,' ').replace(/>/g,' ');
 						        pubDate = new Date(pubDate)
 						        artTime = pubDate.toLocaleTimeString()
 						        artDate = pubDate.toLocaleDateString()
-						        console.log(articleData)
-						        articleData.push({author:author,title:title,category:category,description:description,link:link,artDate:artDate,artTime:artTime});
-						        console.log(articleData)
+						        articleData.push({author:author,title:title,category:category,description:description,link:link,artDate:artDate,artTime:artTime,imgUrl:imgUrl});
 						    }      
 						}  
 					};
-					console.log(articleData);
+					// 修改状态变量
 					this.switchShow=!switchShow;
 					this.articleData = articleData; 
-					console.log(articleData);
+					// console.log(articleData);
 					(function () {  
 					    var oSendRequestAjax = new SendRequestAjax("");  
 					    oSendRequestAjax.sendRequest();
 					}.bind(this))()
 					 
 			},
+			// 获取更多函数
 			getMore:function(){
 			      this.switchShow=!this.switchShow;
 				  this.nowPage++;
 				  this.getArticle();
+				  this.articleTem()
 			}
 		},
+		// 自定义指令
 		directives:{
 			scroll:{
 					bind:function(ele,binding){
-						console.log(arguments)
+						// console.log(arguments)
 						window.onscroll = function(){
 						var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 						var contentH = document.documentElement.scrollHeight || document.body.scrollHeight;
@@ -148,7 +154,7 @@
 						console.log(scrollTop)
 						console.log(contentH)
 						console.log(viewH)
-						if(scrollTop/(contentH -viewH)>=0.9999999){ //到达底部100px时,加载新内容
+						if(scrollTop/(contentH -viewH)>=0.9999999){ //到达底部时,加载新内容
 				             // 这里加载数据..
 				              	var fnc = binding.value;
   							  	fnc();
@@ -164,7 +170,6 @@
 		watch:{
 			articleData:function(value,oldValue){
 				console.log(value)
-				// console.log(value.length)
 			}
 		}
 	})

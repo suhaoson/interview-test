@@ -82,12 +82,26 @@ section	div.article article.article-main{
 	height:5.35rem;
 	width:10rem;
 	font-size:.8rem;
-	display: inline-block;
 	overflow: hidden;
 	margin-right:1.8rem;
 	text-align: justify;
 	line-height: 1.4rem;
 	color:#b6b6b6;
+	display:-webkit-box;
+	text-overflow:ellipsis;
+	-webkit-line-clamp:4;
+	-webkit-box-orient:vertical;
+}
+section div.article div.article-wrapper,
+section div.article div.img-wrapper{
+	display: inline-block;
+}
+section div.article div.img-wrapper{
+	border:.005em solid #eee;
+	border-radius: 0.25em;
+	box-shadow: .005em .005em .01em;
+	height:5rem;
+	width:5rem;
 }
 div.title-sub{
 	margin:.75rem 0 1rem 0;
