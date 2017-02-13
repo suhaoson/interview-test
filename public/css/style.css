@@ -1,0 +1,106 @@
+html{
+	font-size: 20px;
+}
+*{
+	padding:0;
+	margin:0;
+	box-sizing: border-box;
+	-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	letter-spacing: .2em;
+}
+
+body{
+	margin:0;
+	font-family: 微软雅黑;
+}
+i{
+	font-style: normal;
+}
+a{
+	text-decoration: none;
+}
+.clear{
+	clear:both;
+}
+/*宏定义样式结束*/
+body main{
+	margin-left:.8rem; 
+}
+main section{
+	border-top:.005rem solid #c0c0c0;
+	padding-right: 1.25rem;
+	padding-top:1.2rem;
+	padding-bottom: 1.1rem;
+}
+main section:first-of-type{
+	border-top:0;
+}
+section div.title{
+	font-size:1.1rem;
+	color:#333;
+	font-weight: 700;
+	text-align:justify;
+}
+section .title-sub-left,section .title-sub-right{
+	display: inline-block;
+}
+section .title-sub-right{
+	float:right;
+}
+section span.title-author,
+section span.title-category,
+section span.title-date{
+	display: inline-block;
+	border-radius: 0.25rem;
+	padding:.1rem .15rem;
+	font-size: 0.65rem;
+}
+section span.title-author{
+	background-color: #5090c6;
+	color:#f1f6fa;
+	letter-spacing:0em;
+}
+section span.title-category{
+	background-color: #f1f1f1;
+	color:#e47e76;
+	letter-spacing:0em;
+}
+section span.title-date{
+	background-color: #999;
+	color:#fbfbfb;
+}
+section span.title-date i.time{
+	letter-spacing: 0;
+}
+section div.article{
+	display: inline-block;
+	width:calc(100vw - .8em);
+	height:5rem;
+}
+section	div.article article.article-main{
+	height:5.35rem;
+	width:10rem;
+	font-size:.8rem;
+	display: inline-block;
+	overflow: hidden;
+	margin-right:1.8rem;
+	text-align: justify;
+	line-height: 1.4rem;
+	color:#b6b6b6;
+}
+div.title-sub{
+	margin:.75rem 0 1rem 0;
+}
+section div.article img.article-contain-img{
+	object-fit: cover;
+	height:5rem;
+	width:5rem;
+	display: inline-block;
+	background-color:#eee;
+}
+main div#art-info p.get-more,
+main div#art-info p.loading{
+	font-size: .9rem;
+	text-align:center;
+}
